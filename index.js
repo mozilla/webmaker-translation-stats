@@ -1,26 +1,42 @@
 var fs = require("fs");
 var path = require("path");
 
-module.exports = function(locales, pathTolocale, callback) {console.log(locales, pathTolocale)
+module.exports = function(locales, pathTolocale, callback) {
+  var errFlag = false;
+  if(locales.length < 1 || locales.indexOf('') >= 0) {
+    errFlag = true;
+    return callback(null, "Error: You have passed an empty array of locales");
+  }
+  if(!fs.existsSync(pathTolocale)) {
+    errFlag = true;
+    return callback(null, "Error: You have passed wrong path to locale folder");
+  }
   var localeObject = {};
   locales.forEach(function(locale) {
     locale = locale.replace("-", "_");
     localeObject[locale] = {};
     var newPathTolocale = path.join(pathTolocale, locale);
-    fs.readdirSync(newPathTolocale).forEach(function(fileName) {console.log(fileName)
-      if(!fileName.match(/^meta-/)) {
-        return;
-      }
-      fullPath = path.join(newPathTolocale, fileName);
-      console.log(fullPath)
-      try {
-        data = require(fullPath);
-        localeObject[locale][fileName] = data.last_update;
-      } catch (e) {
-        console.error(e.message);
-        return callback(e, null);
-      }
-    });
+    if(!fs.existsSync(newPathTolocale)) {
+      errFlag = true;
+      return callback(null, "Error: Path does not exist for " + locale);
+    } else {
+      fs.readdirSync(newPathTolocale).forEach(function(fileName) {
+        if(!fileName.match(/^meta-/)) {
+          return;
+        }
+        fullPath = path.join(newPathTolocale, fileName);
+        try {
+          data = require(fullPath);
+          localeObject[locale][fileName] = data.last_update;
+        } catch (e) {
+          errFlag = true;
+          console.error(e.message);
+          return callback(e, null);
+        }
+      });
+    }
   });
-  callback(null, localeObject);
+  if(!errFlag) {
+    callback(null, localeObject);
+  }
 };
