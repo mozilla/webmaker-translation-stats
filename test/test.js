@@ -66,5 +66,14 @@ describe("API Tests", function () {
     }).not.throw();
   });
 
+  it("Call with an empty file", function (done) {
+    should(function(){
+      wts(['bad'], path.join(__dirname, "../locale"), function(err, data) {
+        err.toString().should.containEql('Failed to read file: bad/meta-bad.json');
+        done();
+      });
+    }).not.throw();
+  });
+
 });
 

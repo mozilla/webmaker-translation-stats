@@ -30,8 +30,7 @@ module.exports = function(locales, pathTolocale, callback) {
           localeObject[locale][fileName] = data.last_update;
         } catch (e) {
           errFlag = true;
-          console.error(e.message);
-          return callback(e, null);
+          return callback(new Error("Failed to read file: " + locale + "/" + fileName), null);
         }
       });
     }
