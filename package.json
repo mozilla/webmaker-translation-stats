@@ -1,0 +1,28 @@
+{
+  "name": "webmaker-translation-stats",
+  "version": "0.0.0",
+  "description": "Webmaker Translation Files Stats",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec test --timeout 10000 --slow 2000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mozilla/webmaker-translation-stats.git"
+  },
+  "dependencies": {
+    "mocha": "1.18.2",
+    "should": "3.3.0"
+  },
+  "keywords": [
+    "Webmaker",
+    "Translation",
+    "Statistics"
+  ],
+  "author": "Ali Al Dallal",
+  "license": "Mozilla Public License 2.0",
+  "bugs": {
+    "url": "https://github.com/mozilla/webmaker-translation-stats/issues"
+  },
+  "homepage": "https://github.com/mozilla/webmaker-translation-stats"
+}
